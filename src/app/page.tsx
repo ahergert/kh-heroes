@@ -166,7 +166,7 @@ export default function Home() {
                     <h3 className="sr-only">Categories</h3>
                     <ul
                       role="list"
-                      className="px-2 py-3 font-medium text-gray-900"
+                      className="px-2 py-3 font-medium text-gray-900 hidden"
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -219,7 +219,25 @@ export default function Home() {
                                       type="checkbox"
                                       defaultChecked={option.checked}
                                       onChange={() => {
-                                        console.log(section.id, option.value);
+                                        const key =
+                                          section.id as keyof FilterData;
+                                        const filterNode =
+                                          filter && key in filter
+                                            ? filter[key] || []
+                                            : [];
+
+                                        const node = filterNode?.includes(
+                                          option.value,
+                                        )
+                                          ? filterNode.filter(
+                                              (el) => el !== option.value,
+                                            )
+                                          : [...filterNode, option.value];
+
+                                        setFilter((prev) => ({
+                                          ...prev,
+                                          [section.id]: node,
+                                        }));
                                       }}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />

@@ -13,7 +13,7 @@ export const HeroList = ({
   return (
     <ul
       role="list"
-      className="mt-3 grid grid-cols-4 gap-1 sm:grid-cols-2 sm:gap-6 lg:grid-cols-8"
+      className="mt-3 grid grid-cols-4 gap-1 md:grid-cols-2 md:gap-6 lg:grid-cols-8"
     >
       {isLoading ? (
         <>
