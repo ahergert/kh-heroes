@@ -29,6 +29,14 @@ import {
   Hero,
 } from '@/types';
 
+type LocalOptionType = {
+  value: string;
+  label: string;
+  checked: boolean;
+  classNameLabel?: string;
+  classNameInput?: string;
+};
+
 const sortOptions = [
   { name: 'A-Z', href: '#', current: true },
   { name: 'Z-A', href: '#', current: false },
@@ -72,7 +80,13 @@ const filters = [
     id: 'rarity',
     name: 'Rarity',
     options: Object.values(RarityEnum).map((el) => {
-      return { value: el, label: el, checked: false };
+      return {
+        value: el,
+        label: el,
+        checked: false,
+        classNameLabel: 'text-' + el.toLowerCase(),
+        classNameInput: `text-${el.toLowerCase()} focus:ring-${el.toLowerCase()}`,
+      };
     }),
   },
 ];
@@ -97,17 +111,9 @@ export default function Home() {
   useEffect(() => {
     console.log(filter);
     postData().then((data) => {
-      console.log(data);
       setData(data.heroes);
       setLoading(false);
     });
-
-    /*fetch('/api/data')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setLoading(false);
-      });*/
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
@@ -347,47 +353,60 @@ export default function Home() {
                         </h3>
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
-                              <div
-                                key={option.value}
-                                className="flex items-center"
-                              >
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  defaultChecked={option.checked}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                  onChange={() => {
-                                    const key = section.id as keyof FilterData;
-                                    const filterNode =
-                                      filter && key in filter
-                                        ? filter[key] || []
-                                        : [];
-
-                                    const node = filterNode?.includes(
-                                      option.value,
-                                    )
-                                      ? filterNode.filter(
-                                          (el) => el !== option.value,
-                                        )
-                                      : [...filterNode, option.value];
-
-                                    setFilter((prev) => ({
-                                      ...prev,
-                                      [section.id]: node,
-                                    }));
-                                  }}
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
+                            {section.options.map(
+                              (option: LocalOptionType, optionIdx) => (
+                                <div
+                                  key={option.value}
+                                  className="flex items-center"
                                 >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
+                                  <input
+                                    id={`filter-${section.id}-${optionIdx}`}
+                                    name={`${section.id}[]`}
+                                    defaultValue={option.value}
+                                    type="checkbox"
+                                    defaultChecked={option.checked}
+                                    className={clsx(
+                                      'h-4 w-4 rounded border-gray-300',
+                                      option.classNameInput
+                                        ? option.classNameInput
+                                        : 'text-indigo-600 focus:ring-indigo-500',
+                                    )}
+                                    onChange={() => {
+                                      const key =
+                                        section.id as keyof FilterData;
+                                      const filterNode =
+                                        filter && key in filter
+                                          ? filter[key] || []
+                                          : [];
+
+                                      const node = filterNode?.includes(
+                                        option.value,
+                                      )
+                                        ? filterNode.filter(
+                                            (el) => el !== option.value,
+                                          )
+                                        : [...filterNode, option.value];
+
+                                      setFilter((prev) => ({
+                                        ...prev,
+                                        [section.id]: node,
+                                      }));
+                                    }}
+                                  />
+                                  <label
+                                    htmlFor={`filter-${section.id}-${optionIdx}`}
+                                    className={clsx(
+                                      'ml-3 text-sm',
+                                      option.classNameLabel
+                                        ? option.classNameLabel
+                                        : 'text-gray-600',
+                                    )}
+                                  >
+                                    {option.label}
+                                  </label>
+                                </div>
+                              ),
+                            )}
                           </div>
                         </Disclosure.Panel>
                       </>

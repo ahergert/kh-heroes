@@ -7,7 +7,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const jsonBody = req.body ? JSON.parse(req.body) : {};
-  const { heroClass, rarity, alignment }: FilterData = jsonBody;
+  const { heroClass, rarity, alignment, effect, strongVs }: FilterData =
+    jsonBody;
 
   console.log(heroClass, rarity, alignment);
   let filteredHeroes = Heroes;
@@ -26,6 +27,20 @@ export default async function handler(
   if (rarity && rarity.length > 0) {
     filteredHeroes = filteredHeroes.filter((hero) =>
       rarity?.includes(hero.rarity),
+    );
+  }
+
+  if (strongVs && strongVs.length > 0) {
+    filteredHeroes = filteredHeroes.filter(
+      (hero) => hero.strongVs && strongVs?.includes(hero.strongVs),
+    );
+  }
+
+  if (effect && effect.length > 0) {
+    filteredHeroes = filteredHeroes.filter(
+      (hero) =>
+        (hero.baseEffect && effect?.includes(hero.baseEffect)) ||
+        (hero.rageEffect && effect?.includes(hero.rageEffect)),
     );
   }
 

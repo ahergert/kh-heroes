@@ -17,8 +17,16 @@ export const HeroClassEnum = {
 export type HeroClassEnum = (typeof HeroClassEnum)[keyof typeof HeroClassEnum];
 
 export const AlignmentEnum = {
+  Chaotic: 'Chaotic',
   Champion: 'Champion',
+  Dark: 'Dark',
+  Holy: 'Holy',
+  Lawful: 'Lawful',
   Logical: 'Logical',
+  Maniacal: 'Maniacal',
+  Maverick: 'Maverick',
+  Rebel: 'Rebel',
+  Valiant: 'Valiant',
 };
 export type AlignmentEnum = (typeof AlignmentEnum)[keyof typeof AlignmentEnum];
 
@@ -38,8 +46,13 @@ export type RaceEnum = (typeof RaceEnum)[keyof typeof RaceEnum];
 export const EffectEnum = {
   Acid: 'Acid',
   Burn: 'Burn',
+  Cure: 'Cure',
+  Delay: 'Delay',
+  Dispel: 'Dispel',
   Expose: 'Expose',
+  Focus: 'Focus',
   Freeze: 'Freeze',
+  Fury: 'Fury',
   Poison: 'Poison',
   Protect: 'Protect',
   Regenerate: 'Regenerate',
@@ -71,9 +84,5 @@ export type FilterData = {
   rarity?: string[];
   alignment?: string[];
   strongVs?: string[];
-  baseVs?: string[];
-  base?: string[];
-  rageVs?: string[];
-  rage?: string[];
-  maxStarEffect?: string[];
+  effect?: string[];
 };
