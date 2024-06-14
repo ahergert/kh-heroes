@@ -39,8 +39,14 @@ export default async function handler(
   if (effect && effect.length > 0) {
     filteredHeroes = filteredHeroes.filter(
       (hero) =>
+        (hero.maxStarEffect && effect?.includes(hero.maxStarEffect)) ||
         (hero.baseEffect && effect?.includes(hero.baseEffect)) ||
-        (hero.rageEffect && effect?.includes(hero.rageEffect)),
+        (hero.rageEffect &&
+          !Array.isArray(hero.rageEffect) &&
+          effect?.includes(hero.rageEffect)) ||
+        (hero.rageEffect &&
+          Array.isArray(hero.rageEffect) &&
+          hero.rageEffect.some((r) => effect.includes(r))),
     );
   }
 

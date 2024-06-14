@@ -74,8 +74,9 @@ export type Hero = {
   baseEffect?: EffectEnum;
   rageVs?: string;
   rage?: string;
-  rageEffect?: EffectEnum;
-  maxStarEffect: EffectEnum;
+  maxStar?: string;
+  rageEffect?: EffectEnum | EffectEnum[];
+  maxStarEffect?: EffectEnum;
   baseCharge?: number;
 };
 
