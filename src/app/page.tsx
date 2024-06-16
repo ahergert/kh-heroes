@@ -38,10 +38,10 @@ type LocalOptionType = {
 };
 
 const sortOptions = [
-  { name: 'A-Z', href: '#', current: true },
-  { name: 'Z-A', href: '#', current: false },
-  { name: 'Rarity: Low to High', href: '#', current: false },
-  { name: 'Rarity: High to Low', href: '#', current: false },
+  { name: 'A-Z', href: '#', current: true, id: 'name_asc' },
+  { name: 'Z-A', href: '#', current: false, id: 'name_desc' },
+  { name: 'Rarity: Low to High', href: '#', current: false, id: 'rarity_asc' },
+  { name: 'Rarity: High to Low', href: '#', current: false, id: 'rarity_desc' },
 ];
 const subCategories = [
   { name: 'Heroes', href: '#' },
@@ -94,6 +94,7 @@ const filters = [
 export default function Home() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState<FilterData>();
+  const [sort, setSort] = useState<string>('name_asc');
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Hero[]>(Heroes);
 
@@ -101,7 +102,7 @@ export default function Home() {
     const response = await fetch('/api/data', {
       method: 'POST',
       mode: 'cors',
-      body: JSON.stringify(filter),
+      body: JSON.stringify({ filter: filter, sort: sort }),
     });
 
     const json = await response.json();
@@ -109,9 +110,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log(filter);
     postData().then((data) => {
       setData(data.heroes);
+      setSort(data.sort);
       setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -292,7 +293,7 @@ export default function Home() {
                     <div className="py-1">
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
-                          {(focus) => (
+                          {({ focus }) => (
                             <a
                               href={option.href}
                               className={clsx(
@@ -302,6 +303,9 @@ export default function Home() {
                                 focus ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm',
                               )}
+                              onClick={() => {
+                                setSort(option.id);
+                              }}
                             >
                               {option.name}
                             </a>
