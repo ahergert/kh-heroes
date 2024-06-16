@@ -28,6 +28,7 @@ import {
   FilterData,
   Hero,
 } from '@/types';
+import Image from 'next/image';
 
 type LocalOptionType = {
   value: string;
@@ -265,8 +266,15 @@ export default function Home() {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              Knighthood Heroes List
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+              <Image
+                className="inline pe-2"
+                src="/images/paragon.webp"
+                alt="logo"
+                width="32"
+                height="32"
+              />
+              Paragon - Knighthood Heroes List
             </h1>
 
             <div className="flex items-center">

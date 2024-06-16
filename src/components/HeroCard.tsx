@@ -28,14 +28,7 @@ export const HeroCard = ({ hero }: { hero: Hero }) => {
         <span key={`${hero.name}-${label}-${effect}`}></span>
       );
     } else {
-      return (
-        <div className="ms-1 text-sm" key={`${hero.name}-${label}-${effect}`}>
-          <span className="me-1 inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
-            {label}
-          </span>
-          {effect.map((e) => renderEffect(e, label))}
-        </div>
-      );
+      return <>{effect.map((e) => renderEffect(e, label))}</>;
     }
   };
 
