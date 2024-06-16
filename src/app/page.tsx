@@ -119,6 +119,13 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
+  const isChecked = (id: string, value: string): boolean => {
+    console.log(id, value);
+    const key = id as keyof FilterData;
+    const filterNode = filter && key in filter ? filter[key] || [] : [];
+    return filterNode?.includes(value);
+  };
+
   return (
     <div className="bg-white">
       <div>
@@ -219,7 +226,10 @@ export default function Home() {
                                       name={`${section.id}[]`}
                                       defaultValue={option.value}
                                       type="checkbox"
-                                      defaultChecked={option.checked}
+                                      checked={isChecked(
+                                        section.id,
+                                        option.value,
+                                      )}
                                       onChange={() => {
                                         const key =
                                           section.id as keyof FilterData;
@@ -394,7 +404,10 @@ export default function Home() {
                                     name={`${section.id}[]`}
                                     defaultValue={option.value}
                                     type="checkbox"
-                                    defaultChecked={option.checked}
+                                    checked={isChecked(
+                                      section.id,
+                                      option.value,
+                                    )}
                                     className={clsx(
                                       'h-4 w-4 rounded border-gray-300',
                                       option.classNameInput
